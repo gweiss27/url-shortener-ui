@@ -1,7 +1,6 @@
 import React, { useReducer } from "react";
 import axios from "axios";
 import UrlShortenerContext from "./urlShortenerContext";
-import UrlShortenerReducer from "./urlShortenerReducer";
 
 import { SHORTEN_URL, SHORTEN_URL_SUCCESS, SHORTEN_URL_FAIL } from "../types";
 import urlShortenerReducer from "./urlShortenerReducer";
@@ -26,11 +25,10 @@ const UrlShortenerState = props => {
 
         // CREATE REQUEST
         const body = JSON.stringify({ fullUrl: url });
-        console.log(body);
 
         try {
             const res = await axios.post(
-                "http://localhost:8080/api/v1/url",
+                "http://glw-url-shortener.us-west-2.elasticbeanstalk.com/api/v1/url",
                 body,
                 config
             );
@@ -40,7 +38,6 @@ const UrlShortenerState = props => {
                 fullUrl: url
             };
 
-            console.log(res.data);
             dispatch({ type: SHORTEN_URL_SUCCESS, payload: payload });
         } catch (error) {
             console.log(error);

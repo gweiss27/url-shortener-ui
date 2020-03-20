@@ -32,7 +32,7 @@ const AuthState = props => {
         }
 
         try {
-            const res = await axios.get("/api/auth");
+            const res = await axios.get("/api/user");
 
             dispatch({
                 type: USER_LOADED,
@@ -68,20 +68,30 @@ const AuthState = props => {
 
     // LOGIN USER
     const login = async formData => {
+        console.log(formData);
         const config = {
             headers: {
                 "Content-Type": "application/json"
             }
         };
 
+        const body = JSON.stringify(formData);
+        console.log(body);
+
         try {
-            const res = await axios.post("/api/auth", formData, config);
+            const res = await axios.post(
+                "http://localhost:8181/api/user/authenticate",
+                body,
+                config
+            );
+            console.log(res.data);
             dispatch({
                 type: LOGIN_SUCCESS,
                 payload: res.data
             });
             loadUser();
         } catch (error) {
+            console.log(error);
             dispatch({
                 type: LOGIN_FAIL,
                 payload: error.response.data.msg
